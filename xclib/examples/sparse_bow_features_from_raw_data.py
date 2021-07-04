@@ -5,7 +5,7 @@ import sys
 from xclib.data import data_utils
 from xclib.utils.text import BoWFeatures
 from xclib.utils.sparse import ll_to_sparse
-
+import numpy as np
 
 def read(fname):
     labels = []
