@@ -44,7 +44,8 @@ def process(trn_fname, tst_fname, encoding='utf-8',
     trn_text, trn_labels = read(trn_fname)
 
     # feature extractor
-    fex = BoWFeatures(encoding=encoding, min_df=1, max_df=0.7, dtype=dtype)
+    fex = TfidfVectorizer(use_idf=True)
+    print('I am using Tfidf')
     fex.fit(trn_text)
 
     # get features and labels for train set
@@ -65,30 +66,6 @@ def process(trn_fname, tst_fname, encoding='utf-8',
     return trn_features, trn_labels, tst_features, tst_labels
 
 
-def myprocess(trn_fname, tst_fname, encoding='utf-8',
-            min_df=2, dtype=np.float32):
-    trn_text, trn_labels = read(trn_fname)
-
-    # feature extractor
-    fex = TfidfVectorizer(strip_accents='unicode', max_df=0.8)
-    fex.fit(trn_text)
-
-    # get features and labels for train set
-    trn_features = fex.transform(trn_text)
-    del trn_text
-
-    # do test
-    tst_text, tst_labels = read(tst_fname)
-    tst_features = fex.transform(tst_text)
-    del tst_text
-
-    # Ensures both have same number of labels
-    max_ind = max_feature_index(trn_labels, tst_labels)
-
-    trn_labels = ll_to_sparse(trn_labels, shape=(len(trn_labels), max_ind))
-    tst_labels = ll_to_sparse(tst_labels, shape=(len(tst_labels), max_ind))
-
-    return trn_features, trn_labels, tst_features, tst_labels
 
 
 
@@ -100,7 +77,7 @@ def main():
     # Read data and create features
     trn_features, trn_labels, tst_features, tst_labels = process(trn_ifname, tst_ifname)
     print(trn_features)
-    print(trn_labels)
+    # print(trn_labels)
 
 
     # write the data
