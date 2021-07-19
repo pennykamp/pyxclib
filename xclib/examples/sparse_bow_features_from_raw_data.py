@@ -44,7 +44,7 @@ def process(trn_fname, tst_fname, encoding='utf-8',
     trn_text, trn_labels = read(trn_fname)
 
     # feature extractor
-    fex = TfidfVectorizer(use_idf=True)
+    fex = TfidfVectorizer(use_idf=True, max_df=0.8)
     print('I am using Tfidf')
     fex.fit(trn_text)
 
